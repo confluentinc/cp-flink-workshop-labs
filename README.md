@@ -1,6 +1,6 @@
 # cp-flink-workshop-labs
 
-This repository holds the public lab assets for the Confluent Platform for Apache Flink Workshop, available internally at [confluenctinc/cp-flink-workshop](https://github.com/confluentinc/cp-flink-workshop).
+This repository holds the public lab assets for the Confluent Platform for Apache Flink Workshop, available internally at [confluentinc/cp-flink-workshop](https://github.com/confluentinc/cp-flink-workshop).
 
 ## Overview
 
