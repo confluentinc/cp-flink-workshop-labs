@@ -1,0 +1,49 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: deploy-flinkapp
+  namespace: flink
+spec:
+  params:
+    - name: image
+      default: 10.96.0.50:5000/ci-app
+    - name: tag
+  steps:
+    - name: apply
+      image: alpine/k8s:1.35.0
+      script: |
+        #!/bin/sh
+        set -e
+        cat > /tmp/flinkapp.yaml <<EOF
+        apiVersion: platform.confluent.io/v1beta1
+        kind: FlinkApplication
+        metadata:
+          name: ci-app
+          namespace: flink
+        spec:
+          image: $(params.image):$(params.tag)
+          flinkVersion: v2_1
+          flinkConfiguration:
+            taskmanager.numberOfTaskSlots: "2"
+          serviceAccount: flink
+          jobManager:
+            resource:
+              memory: 1024m
+              cpu: 1
+          taskManager:
+            resource:
+              memory: 1024m
+              cpu: 1
+          job:
+            jarURI: local:///opt/flink/usrlib/ci-app.jar
+            entryClass: io.confluent.workshop.ci.OrdersJob
+            state: running
+            parallelism: 2
+            upgradeMode: stateless
+          flinkEnvironment: env1
+          cmfRestClassRef:
+            name: cmf-rest-class
+            namespace: flink
+        EOF
+        cat /tmp/flinkapp.yaml
+        kubectl apply -f /tmp/flinkapp.yaml

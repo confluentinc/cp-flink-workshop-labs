@@ -1,0 +1,10 @@
+# Local AI tooling (R2-managed rules, Claude Code workspace)
+.claude/
+.r2-rules/
+
+# macOS
+.DS_Store
+
+# Maven build output
+target/
+.cursor/

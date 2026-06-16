@@ -1,0 +1,8 @@
+src/
+schema/
+target/classes/
+target/generated-sources/
+target/maven-archiver/
+target/maven-status/
+target/surefire-reports/
+target/original-ci-app.jar

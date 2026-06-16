@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: fetch-source
+  namespace: flink
+spec:
+  params:
+    - name: repo-url
+    - name: revision
+      default: main
+    - name: subdir
+      default: lab-05/resources/ci-app
+  workspaces:
+    - name: source
+  steps:
+    - name: clone
+      image: alpine/git:2.45.2
+      script: |
+        #!/bin/sh
+        set -e
+        git clone --depth 1 --branch "$(params.revision)" "$(params.repo-url)" /tmp/repo
+        cp -r "/tmp/repo/$(params.subdir)/." "$(workspaces.source.path)/"
+        ls -la "$(workspaces.source.path)"

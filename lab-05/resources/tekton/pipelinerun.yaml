@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: flink-ci-
+  namespace: flink
+spec:
+  taskRunTemplate:
+    serviceAccountName: ci-pipeline
+  pipelineRef:
+    name: flink-ci
+  params:
+    - name: repo-url
+      value: https://github.com/confluentinc/cp-flink-workshop-labs.git
+    - name: revision
+      value: main
+    - name: tag
+      value: "v1"
+  workspaces:
+    - name: shared
+      volumeClaimTemplate:
+        spec:
+          accessModes: [ReadWriteOnce]
+          resources:
+            requests:
+              storage: 2Gi

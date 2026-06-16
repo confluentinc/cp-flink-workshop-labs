@@ -1,0 +1,30 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: schema-compat-check
+  namespace: flink
+spec:
+  params:
+    - name: sr-url
+      default: http://schemaregistry.kafka.svc.cluster.local:8081
+    - name: subject
+      default: ci-app-orders-value
+  workspaces:
+    - name: source
+  steps:
+    - name: compat
+      image: curlimages/curl:8.8.0
+      workingDir: $(workspaces.source.path)
+      script: |
+        #!/bin/sh
+        set -e
+        # Wrap the .avsc as a Schema Registry compatibility payload
+        SCHEMA=$(cat schema/ci-app-orders-value.avsc | tr -d '\n' | sed 's/"/\\"/g')
+        BODY="{\"schemaType\":\"AVRO\",\"schema\":\"${SCHEMA}\"}"
+        CODE=$(curl -s -o /tmp/resp -w "%{http_code}" -X POST \
+          -H "Content-Type: application/vnd.schemaregistry.v1+json" \
+          "$(params.sr-url)/compatibility/subjects/$(params.subject)/versions/latest" \
+          -d "$BODY")
+        echo "HTTP $CODE"; cat /tmp/resp; echo
+        # Fail unless the registry reports the schema is compatible
+        grep -q '"is_compatible":true' /tmp/resp
