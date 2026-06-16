@@ -30,6 +30,7 @@ The contract with `cp-flink-workshop` is that its lab instructions reference the
 ## Gotchas
 
 - **Two different clusters.** lab-02/lab-03 assets target the hand-built cluster (FlinkEnvironment `flink-env`, CMFRestClass in namespace `operator`); lab-05 targets the Lab 1 GitOps cluster (FlinkEnvironment `env1`, CMFRestClass in namespace `flink`). The differing names/namespaces are correct, not a bug.
+- **This repo is public; `cp-flink-workshop` is internal.** When migrating or syncing assets from the workshop, do not carry over internal-only content (hostnames, credentials, facilitator notes) — only attendee-facing assets belong here.
 - **Lab 05's Tekton pipeline clones this repo's `main` branch** (`lab-05/resources/tekton/pipelinerun.yaml` + `task-fetch-source.yaml`). Lab-05 asset changes only take effect for attendees once merged to `main`; renaming the repo breaks the lab.
 - **Cutover pending:** the workshop decks still reference their local `labs/resources/` copies. Until those are repointed at this repo and deleted, the two repos hold duplicate assets that must be kept in sync manually.
 - Never commit `lab-05/resources/ci-app/target/` build output (gitignored at root and in `ci-app/.gitignore`).
