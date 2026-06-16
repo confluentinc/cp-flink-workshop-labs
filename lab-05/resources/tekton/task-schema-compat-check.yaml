@@ -13,18 +13,21 @@ spec:
     - name: source
   steps:
     - name: compat
-      image: curlimages/curl:8.8.0
+      image: alpine:3.20
       workingDir: $(workspaces.source.path)
       script: |
         #!/bin/sh
         set -e
-        # Wrap the .avsc as a Schema Registry compatibility payload
-        SCHEMA=$(cat schema/ci-app-orders-value.avsc | tr -d '\n' | sed 's/"/\\"/g')
-        BODY="{\"schemaType\":\"AVRO\",\"schema\":\"${SCHEMA}\"}"
+        apk add --no-cache curl jq >/dev/null
+        # Wrap the .avsc as a Schema Registry compatibility payload.
+        # jq -Rs reads the file as a raw string and emits a correctly
+        # JSON-escaped {schemaType, schema} object (handles quotes,
+        # backslashes, and control characters in the schema).
+        jq -Rs '{schemaType: "AVRO", schema: .}' schema/ci-app-orders-value.avsc > /tmp/body.json
         CODE=$(curl -s -o /tmp/resp -w "%{http_code}" -X POST \
           -H "Content-Type: application/vnd.schemaregistry.v1+json" \
           "$(params.sr-url)/compatibility/subjects/$(params.subject)/versions/latest" \
-          -d "$BODY")
+          -d @/tmp/body.json)
         echo "HTTP $CODE"; cat /tmp/resp; echo
         # Fail unless the registry reports the schema is compatible
         grep -q '"is_compatible":true' /tmp/resp
