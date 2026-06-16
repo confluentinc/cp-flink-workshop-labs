@@ -1,10 +1,6 @@
 # cp-flink-workshop-labs
 
-This repository is part of the Confluent organization on GitHub.
-It is public and open to contributions from the community.
-
-Please see the LICENSE file for contribution terms.
-Please see the CHANGELOG.md for details of recent updates.
+This repository holds the public lab assets for the Confluent Platform for Apache Flink Workshop, available internally at [confluenctinc/cp-flink-workshop](https://github.com/confluentinc/cp-flink-workshop).
 
 ## Overview
 
@@ -30,4 +26,14 @@ Gaps in numbering are intentional: Lab 01 has no standalone assets (it bootstrap
 
 The contract with the workshop is that lab instructions reference these files with paths relative to this repository's root (e.g., `kubectl apply -f lab-02/resources/postgres.yaml`).
 
-> **Cutover status:** the `cp-flink-workshop` decks have not yet been updated — they still reference their local `labs/resources/` copies. Until that cutover lands (deck paths updated, old copies deleted), this repository and the workshop's `labs/resources/` are duplicate sources that must be kept in sync manually.
+## Contributions
+
+This repository is part of the Confluent organization on GitHub. It is public and open to contributions from the community.
+
+## License
+
+Please see the LICENSE file for contribution terms.
+
+## Updates and Changes
+
+Please see the CHANGELOG.md for details of recent updates.
