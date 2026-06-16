@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "record",
+  "namespace": "org.apache.flink.avro.generated",
+  "fields": [
+    { "name": "order_id",    "type": "string" },
+    { "name": "customer_id", "type": "int" },
+    { "name": "product_id",  "type": "string" },
+    { "name": "price",       "type": "double" }
+  ]
+}

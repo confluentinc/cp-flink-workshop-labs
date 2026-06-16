@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: kaniko-build-push
+  namespace: flink
+spec:
+  params:
+    - name: image
+      default: 10.96.0.50:5000/ci-app
+    - name: tag
+  workspaces:
+    - name: source
+  steps:
+    - name: build-push
+      image: gcr.io/kaniko-project/executor:v1.23.2
+      args:
+        - --context=$(workspaces.source.path)
+        - --dockerfile=$(workspaces.source.path)/Dockerfile
+        - --destination=$(params.image):$(params.tag)
+        - --insecure
+        - --skip-tls-verify

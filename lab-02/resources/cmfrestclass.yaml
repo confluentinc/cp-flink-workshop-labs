@@ -1,0 +1,8 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: CMFRestClass
+metadata:
+  name: cmf-rest-class
+  namespace: operator
+spec:
+  cmfRest:
+    endpoint: http://cmf-service.operator.svc.cluster.local:80
