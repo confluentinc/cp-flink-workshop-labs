@@ -40,7 +40,7 @@ spec:
             state: running
             parallelism: 2
             upgradeMode: stateless
-          flinkEnvironment: env1
+          flinkEnvironment: default
           cmfRestClassRef:
             name: cmf-rest-class
             namespace: flink

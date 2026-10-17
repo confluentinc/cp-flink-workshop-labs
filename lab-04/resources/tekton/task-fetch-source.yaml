@@ -9,7 +9,7 @@ spec:
     - name: revision
       default: main
     - name: subdir
-      default: lab-05/resources/ci-app
+      default: lab-04/resources/ci-app
   workspaces:
     - name: source
   steps:
