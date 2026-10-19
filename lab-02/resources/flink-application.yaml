@@ -4,9 +4,9 @@ metadata:
   name: state-machine-example
   namespace: flink
 spec:
-  flinkEnvironment: flink-env
-  image: confluentinc/cp-flink:1.19.1-cp1
-  flinkVersion: v1_19
+  flinkEnvironment: default
+  image: confluentinc/cp-flink:1.20.3-cp2-java17
+  flinkVersion: v1_20
   flinkConfiguration:
     taskmanager.numberOfTaskSlots: "2"
   serviceAccount: flink
@@ -25,4 +25,4 @@ spec:
     upgradeMode: stateless
   cmfRestClassRef:
     name: cmf-rest-class
-    namespace: operator
+    namespace: flink
